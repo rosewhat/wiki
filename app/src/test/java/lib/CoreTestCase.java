@@ -3,28 +3,25 @@ package lib;
 import junit.framework.TestCase;
 
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.remote.DesiredCapabilities;
-
-import java.net.URL;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidDriver;
+import lib.ui.ArticlePageObject;
+import lib.ui.MyListsPageObject;
+import lib.ui.NavigationUIPageObject;
+import lib.ui.SearchPageObject;
+import lib.ui.WelcomeObject;
 
 public class CoreTestCase extends TestCase {
     protected AppiumDriver driver;
-    private static String AppiumURL = "http://127.0.0.1:4723/wd/hub";
+    protected SearchPageObject searchPageObject;
+        protected ArticlePageObject articlePageObject;
+    protected NavigationUIPageObject navigationUiPageObjectObject;
+    protected MyListsPageObject myListPageObject;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("deviceName", "AndroidTestDevice");
-        capabilities.setCapability("platformVersion", "14");
-        capabilities.setCapability("automationName", "Appium");
-        capabilities.setCapability("appPackage", "org.wikipedia");
-        capabilities.setCapability("appActivity", ".main.MainActivity");
-        capabilities.setCapability("app", "/home/moskovsky/AndroidStudioProjects/test_wiki/app/apks/org.wikipedia.apk");
-        driver = new AndroidDriver(new URL(AppiumURL), capabilities);
+        driver = MyPlatform.getInstance().getDriver();
         this.rotateScreenPortrait();
     }
 
@@ -45,4 +42,13 @@ public class CoreTestCase extends TestCase {
     protected void backGroundApp(int seconds) {
         driver.runAppInBackground(seconds);
     }
+
+    private void skipWelcomePageForIosApp() {
+        if (MyPlatform.getInstance().isIOS()) {
+            WelcomeObject welcomeObject = new WelcomeObject(driver);
+            welcomeObject.clickSkip();
+        }
+    }
+
+
 }
