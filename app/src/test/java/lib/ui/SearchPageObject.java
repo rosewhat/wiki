@@ -3,20 +3,17 @@ package lib.ui;
 
 import static lib.ui.DefaultParams.*;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.TouchAction;
 
-public class SearchPageObject extends MainPageObject {
-    private static final String XPATH_FIND_SEARCH_WIKIPEDIA = "//*[contains(@text, 'Search Wikipedia')]";
-    private static final String BY_FIND_IN_TEXT_EDIT_SEARCH = "org.wikipedia:id/search_src_text";
-    private static final String BY_FIND_AND_CLOSE = "org.wikipedia:id/search_close_btn";
-    // template
-    private static final String XPATH_FIND_SEARCH_RESULT_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][contains(@text, '{SUBSTRING}')]";
-    private String XPATH_FIND_RESULT_SEARCH_LIST = "//*[@resource-id='org.wikipedia:id/fragment_search_results']/*[@resource-id='org.wikipedia:id/search_results_container']";
+abstract public class SearchPageObject extends MainPageObject {
+    protected static String
+            XPATH_FIND_SEARCH_WIKIPEDIA,
+            BY_FIND_IN_TEXT_EDIT_SEARCH,
+            BY_FIND_AND_CLOSE,
+            // template
+            XPATH_FIND_SEARCH_RESULT_TPL,
+            XPATH_FIND_RESULT_SEARCH_LIST;
 
 
     public SearchPageObject(AppiumDriver driver) {
@@ -32,7 +29,7 @@ public class SearchPageObject extends MainPageObject {
      */
     public void initSearchInput() {
         waitForElementAndClick(
-                By.xpath(XPATH_FIND_SEARCH_WIKIPEDIA),
+                XPATH_FIND_SEARCH_WIKIPEDIA,
                 getDefaultErrorMessageFindElements("Search Line"),
                 getDefaultWaitForElement
         );
@@ -43,7 +40,7 @@ public class SearchPageObject extends MainPageObject {
      */
     public void typeSearchLine(String search_line) {
         waitForElementAndSendKeys(
-                By.id(BY_FIND_IN_TEXT_EDIT_SEARCH),
+                BY_FIND_IN_TEXT_EDIT_SEARCH,
                 search_line,
                 getDefaultErrorMessageSendKeys(search_line),
                 getDefaultWaitForElement
@@ -56,7 +53,7 @@ public class SearchPageObject extends MainPageObject {
     public void waitForSearchResult(String substring) {
         String search_result_xpath = getResultSearchElement(substring);
         waitForElementPresentById(
-                By.xpath(search_result_xpath),
+                search_result_xpath,
                 getDefaultErrorMessageFindElements("результат строки" + substring),
                 getDefaultWaitForElement
         );
@@ -67,7 +64,7 @@ public class SearchPageObject extends MainPageObject {
      */
     public void waitForCanselButtonToAppear() {
         waitForElementAndClick(
-                By.id(BY_FIND_AND_CLOSE),
+                BY_FIND_AND_CLOSE,
                 getDefaultErrorMessageFindElements("Кнопку закрыть в Toolbar"),
                 15
         );
@@ -78,7 +75,7 @@ public class SearchPageObject extends MainPageObject {
      */
     public void waitForCanselButtonToDisappear() {
         waitForElementNotPresent(
-                By.id(BY_FIND_AND_CLOSE),
+                BY_FIND_AND_CLOSE,
                 "Наша кнопка не исчезла",
                 15
         );
@@ -86,7 +83,7 @@ public class SearchPageObject extends MainPageObject {
 
     public int getAmountGetArticles() {
         return getAmountOfElements(
-                By.xpath(XPATH_FIND_RESULT_SEARCH_LIST)
+                XPATH_FIND_RESULT_SEARCH_LIST
         );
     }
 
