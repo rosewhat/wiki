@@ -4,6 +4,8 @@ package lib.ui;
 import static lib.ui.DefaultParams.*;
 
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 
 abstract public class SearchPageObject extends MainPageObject {
@@ -16,7 +18,7 @@ abstract public class SearchPageObject extends MainPageObject {
             XPATH_FIND_RESULT_SEARCH_LIST;
 
 
-    public SearchPageObject(AppiumDriver driver) {
+    public SearchPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

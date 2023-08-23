@@ -1,5 +1,7 @@
 package lib.ui.ios;
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 import lib.ui.ArticlePageObject;
 
@@ -13,7 +15,7 @@ public class IosArticlePageObject extends ArticlePageObject {
           BY_FIND_AND_CLICK_SAVE_LIST_OK = "id:android:id/button1";
     }
 
-    public IosArticlePageObject(AppiumDriver driver) {
+    public IosArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 }

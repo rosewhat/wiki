@@ -1,5 +1,7 @@
 package lib.ui.ios;
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 import lib.ui.MyListsPageObject;
 
@@ -10,7 +12,7 @@ public class IosMyListsPageObject extends MyListsPageObject {
         XPATH_FIND_LIST_ITEM_CONTAINER_TITLE = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title']";
     }
 
-    public IosMyListsPageObject(AppiumDriver driver) {
+    public IosMyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 }

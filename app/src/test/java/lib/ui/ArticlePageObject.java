@@ -3,6 +3,7 @@ package lib.ui;
 import static lib.ui.DefaultParams.*;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import io.appium.java_client.AppiumDriver;
 import lib.MyPlatform;
@@ -15,7 +16,7 @@ abstract public class ArticlePageObject extends MainPageObject {
             BY_FIND_AND_WRITE_NAME_LIST,
             BY_FIND_AND_CLICK_SAVE_LIST_OK;
 
-    public ArticlePageObject(AppiumDriver driver) {
+    public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

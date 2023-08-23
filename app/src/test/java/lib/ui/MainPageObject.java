@@ -1,23 +1,34 @@
 package lib.ui;
 
+
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.TouchAction;
+import io.qameta.allure.Attachment;
 import lib.MyPlatform;
 
 public class MainPageObject {
-    protected AppiumDriver driver;
+    protected RemoteWebDriver driver;
 
-    public MainPageObject(AppiumDriver driver) {
+    public MainPageObject(RemoteWebDriver driver) {
         this.driver = driver;
     }
 
@@ -58,12 +69,16 @@ public class MainPageObject {
     }
 
     public void swipeUp(int timeOfSwipe) {
-        TouchAction action = new TouchAction(driver);
-        Dimension size = driver.manage().window().getSize();
-        int x = size.width / 2;
-        int start_y = (int) (size.height * 0.8);
-        int end_y = (int) (size.height * 0.2);
-        action.press(x, start_y).waitAction(timeOfSwipe).moveTo(x, end_y).release().perform();
+        if (driver instanceof AppiumDriver) {
+            TouchAction action = new TouchAction((AppiumDriver) driver);
+            Dimension size = driver.manage().window().getSize();
+            int x = size.width / 2;
+            int start_y = (int) (size.height * 0.8);
+            int end_y = (int) (size.height * 0.2);
+            action.press(x, start_y).waitAction(timeOfSwipe).moveTo(x, end_y).release().perform();
+        } else {
+            System.out.println("Method swipeUp() do nothing for platform" + MyPlatform.getInstance().getPlatformVar());
+        }
     }
 
     public void swipeUpTillElementAppear(String locator, String error_message, int max_size) {
@@ -100,30 +115,34 @@ public class MainPageObject {
     }
 
     public void swipeElementToLeft(String locator, String error_message) {
-        TouchAction action = new TouchAction(driver);
-        WebElement element = waitForElementPresentById(locator, error_message, 15);
+        if (driver instanceof AppiumDriver) {
+            TouchAction action = new TouchAction((AppiumDriver) driver);
+            WebElement element = waitForElementPresentById(locator, error_message, 15);
 
-        int start_x = element.getLocation().getX();
-        int end_x = start_x + element.getSize().width;
-        int start_y = element.getLocation().getY();
-        int end_y = element.getSize().height + start_y;
-
-
-        int middle_y = (start_y + end_y) / 2;
-        action.press(end_x, middle_y);
-        action.waitAction(200);
-        action.moveTo(start_x, middle_y);
+            int start_x = element.getLocation().getX();
+            int end_x = start_x + element.getSize().width;
+            int start_y = element.getLocation().getY();
+            int end_y = element.getSize().height + start_y;
 
 
-        if (MyPlatform.getInstance().isAndroid()) {
+            int middle_y = (start_y + end_y) / 2;
+            action.press(end_x, middle_y);
+            action.waitAction(200);
             action.moveTo(start_x, middle_y);
-            // в айфонах когда делаем свайп не до какой то определенной точки нужно делать смещение, на опр ширину от этой точки
+
+
+            if (MyPlatform.getInstance().isAndroid()) {
+                action.moveTo(start_x, middle_y);
+                // в айфонах когда делаем свайп не до какой то определенной точки нужно делать смещение, на опр ширину от этой точки
+            } else {
+                int offset_x = -(element.getSize().getWidth());
+                action.moveTo(offset_x, 0);
+            }
+            action.release();
+            action.perform();
         } else {
-            int offset_x = -(element.getSize().getWidth());
-            action.moveTo(offset_x, 0);
+            System.out.println("Method swipeUp() do nothing for platform" + MyPlatform.getInstance().getPlatformVar());
         }
-        action.release();
-        action.perform();
     }
 
     public int getAmountOfElements(String locator) {
@@ -154,8 +173,35 @@ public class MainPageObject {
             return By.xpath(locator);
         } else if (by_type.equals("id")) {
             return By.id(locator);
+        } else if (by_type.equals("css")) {
+            return By.cssSelector(locator);
         } else {
             throw new IllegalArgumentException("Cannot get type of locator" + locator_with_type);
         }
+    }
+
+    public String takeScreenShot(String name) {
+        TakesScreenshot ts = (TakesScreenshot)  this.driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        String path = System.getProperty("user.dir") + "/" + name +"_screenshot.png";
+        try {
+            FileUtils.copyFile(source, new File(path));
+            System.out.println("The screenShot was taken" + path);
+        } catch (Exception e) {
+            System.out.println("Cannot take screenShot. Error" + e.getMessage());
+        }
+        return path;
+    }
+
+    @Attachment
+    public static byte [] screenShot(String path) {
+        byte [] bytes = new byte[0];
+
+        try {
+            bytes = Files.readAllBytes(Paths.get(path));
+        } catch (IOException e) {
+            System.out.println("Cannot get bytes from screenShot. Error: " + e.getMessage());
+        }
+        return bytes;
     }
 }

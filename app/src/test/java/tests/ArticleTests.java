@@ -1,7 +1,12 @@
 package tests;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import lib.CoreTestCase;
 import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUIPageObject;
@@ -16,6 +21,9 @@ public class ArticleTests extends CoreTestCase {
     private MyListsPageObject myListsPageObject;
 
     @Test
+    @DisplayName("Полное название метода указывается в этой аннотации")
+    @Description("Как работает наш тест")
+    @Step("Последовательность действий в Excecution '{Тут можно указать параметры, которые потом покажутся в отчетах}' ")
     public void testCompareArticleTitle() {
         waitOnboardingPageObject = WaitOnBoardingObjectFactory.get(driver);
         searchPageObject = SearchPageObjectFactory.get(driver);
@@ -24,7 +32,7 @@ public class ArticleTests extends CoreTestCase {
         // Находим статью из главного экрана
         articlePageObject.waitForTitleElement();
         String article_title = articlePageObject.getArticleTitle();
-        assertEquals("Не получилось сравнить",
+         assertEquals("Не получилось сравнить",
                 "Xá Lợi Pagoda raids",
                 article_title
         );
