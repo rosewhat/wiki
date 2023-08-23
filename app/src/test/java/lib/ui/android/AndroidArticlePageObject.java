@@ -1,6 +1,7 @@
 package lib.ui.android;
 
-import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import lib.ui.ArticlePageObject;
 
 public class AndroidArticlePageObject extends ArticlePageObject {
@@ -13,7 +14,7 @@ public class AndroidArticlePageObject extends ArticlePageObject {
           BY_FIND_AND_CLICK_SAVE_LIST_OK = "id:android:id/button1";
     }
 
-    public AndroidArticlePageObject(AppiumDriver driver) {
+    public AndroidArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 }

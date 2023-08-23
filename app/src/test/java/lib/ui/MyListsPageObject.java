@@ -3,6 +3,8 @@ package lib.ui;
 import static lib.ui.DefaultParams.*;
 
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 
 abstract public class MyListsPageObject extends MainPageObject {
@@ -11,7 +13,7 @@ abstract public class MyListsPageObject extends MainPageObject {
             BY_FIND_LIST_ITEM_CONTAINER = "id:org.wikipedia:id/page_list_item_title",
             XPATH_FIND_LIST_ITEM_CONTAINER_TITLE = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title']";
 
-    public MyListsPageObject(AppiumDriver driver) {
+    public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

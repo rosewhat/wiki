@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import lib.CoreTestCase;
@@ -42,7 +43,7 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.simpleSwipeUp();
         // Находим статью из главного экрана
         String title_after_rotation = articlePageObject.getArticleTitle();
-        assertEquals(
+        Assert.assertEquals(
                 "Заголовки до переворота и после не совпадают",
                 title_before_rotation,
                 title_after_rotation);
@@ -104,7 +105,7 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.getAmountGetArticles();
         // проверить кол-во элементов, если больше 1 то ок
         int amount_of_search_results = searchPageObject.getAmountGetArticles();
-        assertTrue(
+        Assert.assertTrue(
                 "Элементов вообще нет",
                 amount_of_search_results > 0
         );

@@ -1,5 +1,7 @@
 package lib.ui.android;
 
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.AppiumDriver;
 import lib.ui.NavigationUIPageObject;
 
@@ -7,7 +9,7 @@ public class AndroidPageObjectNavigationPageObject extends NavigationUIPageObjec
     static {
         XPATH_FIND_NAVIGATION_LIST = "xpath://android.widget.FrameLayout[@content-desc='My lists']";
     }
-    public AndroidPageObjectNavigationPageObject(AppiumDriver driver) {
+    public AndroidPageObjectNavigationPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

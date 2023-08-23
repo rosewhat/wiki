@@ -3,14 +3,15 @@ package lib.ui;
 import static lib.ui.DefaultParams.getDefaultErrorMessageFindElements;
 import static lib.ui.DefaultParams.getDefaultWaitForElement;
 
-import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 
 abstract public class WaitOnboardingPageObject extends MainPageObject {
     protected static String
             XPATH_SKIP_WIKIPEDIA_ONBOARDING,
             XPATH_SKIP_NOTIFICATION_SEND;
 
-    public WaitOnboardingPageObject(AppiumDriver driver) {
+    public WaitOnboardingPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
